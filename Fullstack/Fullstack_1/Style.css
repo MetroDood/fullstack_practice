@@ -1,0 +1,30 @@
+@font-face{ font-family: Delta; src: url('Deltarune.otf.woff2'); } 
+.test{
+    color: red;
+}
+
+a:hover{
+    color: purple;
+}
+
+body{
+    
+    font-family: Delta;
+    font-size: 12pt;
+    background-color: rgb(75, 105, 125);
+    text-align: center;
+}
+
+.images{
+    display:table-cell;
+    max-height: 200px;
+    width: 200px;
+    overflow: hidden;
+    object-fit: scale-down;
+}
+
+.images img{
+    width: 100%;
+    height: auto;
+}
+

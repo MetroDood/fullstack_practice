@@ -1,0 +1,24 @@
+@font-face{ font-family: Delta; src: url('Deltarune.otf.woff2'); } 
+a:hover{
+    color: purple;
+}
+
+body{
+    
+    font-family: Delta;
+    background-color: rgb(75, 105, 125);
+    text-align: center;
+}
+
+.projects{
+    color: black;
+    font-size: 14px;
+}
+
+#mainmenu div{
+    background-image: url("button.jfif");
+    font-size: 20px;
+    max-height: 200px;
+    width: auto;
+    text-align: center;
+}
