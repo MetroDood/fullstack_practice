@@ -2,7 +2,7 @@ const circle = document.querySelector('.cursor-circle');
 let x = 0, y = 0;
 let targetX = 0, targetY = 0;
 const speed = 0.15;
-const size = 10; // match the CSS circle size
+const size = 10; // CSS circle size
 
 document.addEventListener('mousemove', (e) => {
   targetX = e.clientX - size / 2;

@@ -11,7 +11,7 @@
     left: 50%;
     top:20px;
     transform: translate(-50%, -50%);
-    z-index: 9000;
+    z-index: 9000;;
 }
 
 .navbar div {
@@ -21,6 +21,7 @@
     color: rgb(232, 204, 245);
     cursor: pointer;
     transition: background-color 0.5s ease;
+    border-bottom: #673c7374 solid 2px
 }
 
 .navbar div:hover {
@@ -205,6 +206,6 @@ body {
     pointer-events: none;
     transform: translate(-50%, -50%);
     transition: transform 0.1s ease-out;
-    z-index: 9999;
+    z-index: 1;
     backdrop-filter: blur(4px);
 }
