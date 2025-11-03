@@ -1,3 +1,11 @@
+@font-face {
+    font-family: "DeterminationSansWeb";
+    src: url("./fonts/DeterminationSansWeb.woff") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 .navbar{
     position: fixed;
     flex-wrap: nowrap;
@@ -35,9 +43,33 @@
 }
 
 body {
-    font-family: Delta;
+
     text-align: center;
     background: rgba(36, 39, 61);
     margin: 0;
     padding: 0;
 }
+
+h1{
+    color: rgb(232, 204, 245);
+    padding: 10%;
+    font-size: 36px;
+    font-family: "DeterminationSansWeb";
+    position:relative;
+    left: 50%;
+    top: 0px;
+    transform: translate(-50%, 0%);
+}
+
+
+#followerCanvas {
+    background-color: rgb(21, 0, 31);
+    display: block;
+    border-radius: 20px;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 0px 20px rgba(97, 87, 107, 0.5);
+}
+
