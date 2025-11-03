@@ -1,0 +1,66 @@
+body {
+  font-family: Delta, Arial, sans-serif;
+  text-align: center;
+  background: rgba(36, 39, 61);
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.4s ease;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.guess-container {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(232, 204, 245, 0.2);
+  border-radius: 20px;
+  padding: 40px 60px;
+  text-align: center;
+  color: rgb(232, 204, 245);
+  box-shadow: 0 0 20px rgba(155, 101, 205, 0.2);
+}
+
+.guess-container h1 {
+  color: rgb(155, 101, 205);
+  margin-bottom: 15px;
+}
+
+.hue_shifted_purple {
+  color: rgb(155, 101, 205);
+}
+
+input {
+  padding: 10px;
+  font-size: 18px;
+  text-align: center;
+  width: 120px;
+  border-radius: 8px;
+  border: 1px solid rgba(232, 204, 245, 0.4);
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgb(232, 204, 245);
+}
+
+button {
+  margin-top: 15px;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 8px;
+  background-color: rgb(155, 101, 205);
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: rgb(183, 133, 235);
+  transform: scale(1.05);
+}
+
+#mensagem {
+  margin-top: 20px;
+  font-weight: bold;
+  color: rgb(232, 204, 245);
+}
