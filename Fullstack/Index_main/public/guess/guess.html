@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo da Adivinhação</title>
+  <link rel="stylesheet" href="styleguess.css">
+</head>
+<body>
+  <div id="bg"></div>
+  <nav class="navbar">
+            <div><a href=#home> Home</a></div>
+            <div><a href=#habilidades>Habilidades</a></div>
+            <div><a href=#portfolio>Portfólio</a></div>
+            <div><a href=#linking>Contato</a></div>
+    </nav>
+    <h1>Guessing game</h1>
+    <div class="guess_cont">
+      <p>Digite um número entre 0 e 99:</p>
+
+      <input type="number" id="entry" min="0" max="99" placeholder="0-99">
+      <button onclick="verificar()">Tentar</button>
+
+      <p id="message"></p>
+    </div>
+  <script src="guess.js"></script>
+</body>
+</html>
