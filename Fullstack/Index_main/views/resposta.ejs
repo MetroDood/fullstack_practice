@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Status do Login</title>
+    <link href="../style.css" rel="stylesheet">
+    <link href="../login/LCstyle.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Status do Login</h1>
+        
+        <% if (status === 'Sucesso') { %>
+            <h2 style="color: green;">Login Bem-Sucedido!</h2>
+        <% } else { %>
+            <h2 style="color: red;">Falha no Login!</h2>
+        <% } %>
+
+        <p>Mensagem: **<%= mensagem %>** </p>
+        
+        <p><a href="/login">Voltar para a tela de Login</a></p>
+        <p><a href="index.html">Voltar para Projetos</a></p>
+    </div>
+</body>
+</html>

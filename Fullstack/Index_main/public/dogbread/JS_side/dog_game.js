@@ -1,26 +1,21 @@
 const canvas = document.getElementById("dogbreadFight");
 const ctx = canvas.getContext("2d");
-
-// ----------------------
-// Setup and Globals
-// ----------------------
 const width = canvas.width;
 const height = canvas.height;
-
 const textBoxHeight = height * 0.3;
 const menuHeight = 100;
 const statsHeight = 40;
 const enemyZoneHeight = height - (textBoxHeight + menuHeight + statsHeight);
 
-// Game State Trackers
+// Game State atual
 let gameStarted = false;
 let round = 0;
 let inBattle = false;
 let fading = 0;
 let disableInput = false;
-let lastAttack = null; // Track the last attack used
+let lastAttack = null; // ensures the same attack doesn't repeat
 
-// Player
+// Player constructor, holds stats and the default name
 let player = {
     name: "YOU",
     lvl: 1,
@@ -28,30 +23,43 @@ let player = {
     maxHp: 20
 };
 
-// UI Elements
+// General sprites
+const soul = new Image();
+soul.src = "images/Soul.png";
+const soulSize = 20;
+const loaf = new Image();
+loaf.src = "../images/Dogbread.png";
+// Attack sprites
+const pelletImg = new Image();
+pelletImg.src = "images/attacks/breadpellet.png"; 
+const croissantImg = new Image();
+croissantImg.src = "images/attacks/croissant.png";
+const bigBreadImg = new Image();
+bigBreadImg.src = "images/attacks/big_bread.png";
+
+// UI before game starts (name etc)
 const nameScreen = document.getElementById("nameScreen");
 const playerNameInput = document.getElementById("playerNameInput");
 const startButton = document.getElementById("startButton");
 
-// *** End Screen UI Elements ***
+// End screen elements, shown on victory or game over 
 const endScreen = document.getElementById("endScreen");
 const endMessage = document.getElementById("endMessage");
 const retryButton = document.getElementById("retryButton");
 const menuButton = document.getElementById("menuButton");
-const MENU_URL = "dogbread_menu.html";
+const menuURL = "dogbread_menu.html";
 
-// ----------------------
-// Event Listeners
-// ----------------------
+
+// General event listeners
 startButton.addEventListener("click", startGame);
 playerNameInput.addEventListener("keydown", e => {
     if (e.key === "Enter") startGame();
 });
 
-// *** End Screen Listeners ***
+// Retry and Menu buttons on end screen
 if (retryButton) retryButton.addEventListener("click", resetGame);
 if (menuButton) menuButton.addEventListener("click", () => {
-    window.location.href = MENU_URL;
+    window.location.href = menuURL;
 });
 
 function startGame() {
@@ -65,49 +73,42 @@ function startGame() {
 }
 
 function resetGame() {
-    // Reset core state
     gameStarted = true;
     round = 0;
     inBattle = false;
     fading = 0;
     disableInput = false;
     lastAttack = null; 
-
-    // Reset player stats
     player.hp = player.maxHp;
     actsDone = 0;
     loafDamage = 0;
-    
-    // Reset menus and items
     selectedIndex = 0;
     menuState = "main";
     actIndex = 0;
     itemIndex = 0;
     mercyIndex = 0;
     itemOptions.forEach(item => item.used = false);
-
-    // Reset combat state and UI
     stopAllAttacks();
     if (endScreen) endScreen.style.display = "none";
     canvas.style.display = "block";
-    
     setDialogue(round);
-    
     lastTime = performance.now(); 
     requestAnimationFrame(gameLoop);
 }
 
-// ----------------------
-// Menu and State
-// ----------------------
+
+
+// Menu state machine (yay)
+// Utilizes dictionary-like structures for options
+
+
 const menuOptions = ["FIGHT", "ACT", "ITEM", "MERCY"];
 let selectedIndex = 0;
 let menuState = "main";
-
 const actOptions = ["Pet", "Play", "Pun", "Bath"];
 let actIndex = 0;
 let actsDone = 0;
-
+// Item, hp healed, used (self explanatory)
 let itemOptions = [
     { name: "Legendary Loaf", heal: 10, used: false },
     { name: "Legendary Loaf", heal: 10, used: false },
@@ -118,34 +119,15 @@ let itemIndex = 0;
 const mercyOptions = ["Spare", "Flee"];
 let mercyIndex = 0;
 
-// ----------------------
-// Assets
-// ----------------------
-const soul = new Image();
-soul.src = "images/Soul.png";
-const soulSize = 20;
 
-const loaf = new Image();
-loaf.src = "../images/Dogbread.png";
+// Dialogue system
 
-// attack assets
-const pelletImg = new Image();
-pelletImg.src = "images/attacks/breadpellet.png"; 
-
-const croissantImg = new Image();
-croissantImg.src = "images/attacks/croissant.png";
-
-const bigBreadImg = new Image();
-bigBreadImg.src = "images/attacks/big_bread.png";
-
-// ----------------------
-// Text and Dialogues
-// ----------------------
 let message = "";
 let displayedText = "";
 let textIndex = 0;
 let textTimer = 0;
 
+// Act dialogues, specific to each action (same idea of dictionary-likeness from Python)
 const actDialogues = {
     "Pet": "You pet the loaf, it feels crusty. Loaf loves it.",
     "Bath": "You spray water on Loaf... Nobody likes soggy bread... But it 'Loafs' it.",
@@ -153,6 +135,7 @@ const actDialogues = {
     "Pun": "You 'break' bread with Loaf."
 };
 
+// Dialogue that cycles when switching menus/phases
 const dialogueLines = [
     "Loaf is walking around aimlessly.",
     "Loaf wags its tail happily!",
@@ -168,25 +151,20 @@ function setDialogue(roundIndex) {
     textTimer = 0;
 }
 
-// ----------------------
-// Heart (SOUL) Movement
-// ----------------------
+// SOUL (player) movement and position
 let soulX = width / 2;
 let soulY = enemyZoneHeight + textBoxHeight / 2;
 const soulSpeed = 3;
 let vx = 0, vy = 0;
 
-// ----------------------
-// Controls
-// ----------------------
+// Menu controls
 document.addEventListener("keydown", e => {
     if (!gameStarted || disableInput) return;
 
-    // --- MAIN MENU ---
+    // Main Menu glorified state machine 
     if (menuState === "main") {
         if (e.key === "ArrowLeft") selectedIndex = (selectedIndex + menuOptions.length - 1) % menuOptions.length;
         if (e.key === "ArrowRight") selectedIndex = (selectedIndex + 1) % menuOptions.length;
-
         if (e.key.toLowerCase() === "z") {
             const current = menuOptions[selectedIndex];
             if (current === "ACT") {
@@ -204,12 +182,10 @@ document.addEventListener("keydown", e => {
         }
     }
 
-    // --- ACT MENU ---
+    // Act menu glorified state machimne
     else if (menuState === "act") {
-        // Vertical movement for column layout
         if (e.key === "ArrowUp") actIndex = (actIndex + actOptions.length - 1) % actOptions.length;
         if (e.key === "ArrowDown") actIndex = (actIndex + 1) % actOptions.length;
-        
         if (e.key.toLowerCase() === "x") menuState = "main";
         if (e.key.toLowerCase() === "z") {
             const chosen = actOptions[actIndex];
@@ -217,12 +193,12 @@ document.addEventListener("keydown", e => {
             actsDone++;
             resetText();
             menuState = "main";
-            disableInput = true;          
+            disableInput = true;
             waitForTextThenBattle();
         }
     }
 
-    // --- ITEM MENU ---
+    // Item menu glorified state machine
     else if (menuState === "item") {
         if (e.key === "ArrowUp") itemIndex = (itemIndex + itemOptions.length - 1) % itemOptions.length;
         if (e.key === "ArrowDown") itemIndex = (itemIndex + 1) % itemOptions.length;
@@ -242,7 +218,7 @@ document.addEventListener("keydown", e => {
         }
     }
 
-    // --- MERCY MENU ---
+    // mercy menu glorified state machine
     else if (menuState === "mercy") {
         if (e.key === "ArrowUp" || e.key === "ArrowDown")
             mercyIndex = (mercyIndex + 1) % mercyOptions.length;
@@ -271,7 +247,7 @@ document.addEventListener("keydown", e => {
     }
 });
 
-// Movement for battle (soul)
+// SOUL controls during battle
 document.addEventListener("keydown", e => {
     if (menuState !== "battle" || disableInput) return;
     if (e.key === "ArrowLeft") vx = -soulSpeed;
@@ -295,11 +271,10 @@ function waitForTextThenBattle() {
     const interval = setInterval(() => {
         if (displayedText.length === message.length) {
             clearInterval(interval);
-            // Wait a moment longer for the user to read
             setTimeout(() => {
-                message = ""; // Wipe dialogue message
-                displayedText = ""; // Wipe displayed text
-                fading = 0; // Ensure fade starts from 0
+                message = ""; 
+                displayedText = "";
+                fading = 0;
                 fadeOutDialogue(() => startBattlePhase());
             }, 500); 
         }
@@ -328,9 +303,8 @@ function fadeInDialogue() {
     }, 30);
 }
 
-// ----------------------
-// Game Over and Victory Functions
-// ----------------------
+// Game over/victory overlays (had to get a bit of help from Copilot for this one)
+// Still works like a charm tho
 function gameOver(reason) {
     disableInput = true;
     
@@ -359,7 +333,6 @@ function gameOver(reason) {
 function victory() {
     disableInput = true;
     
-    // Start fade out sequence
     const fadeInterval = setInterval(() => {
         fading += 0.05;
         if (fading >= 1) {
@@ -374,19 +347,17 @@ function victory() {
     }, 30);
 }
 
-// ----------------------
-// ATTACK SYSTEM 
-// ----------------------
-
+// Attacks! Well... Their variables, (implementation is below)
 let pellets = [];
 let pelletTimer = 0;
-let croissantSpeed = 0.015;
+let croissantSpeed = 0.055;
 let croissants = [];
 let bigBread = null;
 let comboActive = false;
 let activeAttack = null; 
 let loafDamage = 0;      
 
+// Limits the arena size and handles attacks
 function startBattlePhase() {
     menuState = "battle";
     inBattle = true;
@@ -399,7 +370,8 @@ function startBattlePhase() {
     disableInput = false;
 
     let nextAttack;
-    if (loafDamage >= 50 || actsDone >= 3) {
+    // Logic to choose next attack based on loafDamage and actsDone (to avoid repetition)
+    if (loafDamage >= 50 || actsDone > 3 || lastAttack != "combo") {
         nextAttack = "combo";
     } else {
         const availableAttacks = ["pellet", "croissant"].filter(att => att !== lastAttack);
@@ -420,6 +392,7 @@ function startBattlePhase() {
     setTimeout(() => endBattlePhase(), 12000);
 }
 
+// Ends the battle phase, resets states back to menu
 function endBattlePhase() {
     stopAllAttacks();
     inBattle = false;
@@ -434,6 +407,9 @@ function startPelletAttack() {
     pelletTimer = 0;
 }
 
+// Randomly spawns pellets that home in on the soul (start outside the arena and move towards it)
+// Had a bit of help with this one (thanks Copilot!)
+// Overall works great.
 function updatePellets(delta) {
     pelletTimer += delta;
     if (pelletTimer > 500) { 
@@ -466,17 +442,28 @@ function updatePellets(delta) {
         p.y < arenaY + 400
     );
 }
-
 function spawnPellet() {
     const arenaX = width / 2 - 50;
     const arenaY = enemyZoneHeight + textBoxHeight / 2 - 50;
     const side = Math.floor(Math.random() * 4);
     let x, y;
     const offset = 250; 
-    if (side === 0) { x = arenaX + Math.random() * 100; y = arenaY - offset; }
-    else if (side === 1) { x = arenaX + Math.random() * 100; y = arenaY + 100 + offset; }
-    else if (side === 2) { x = arenaX - offset; y = arenaY + Math.random() * 100; }
-    else { x = arenaX + 100 + offset; y = arenaY + Math.random() * 100; }
+    if (side === 0) { 
+      x = arenaX + Math.random() * 100;
+      y = arenaY - offset; 
+    }
+    else if (side === 1) { 
+      x = arenaX + Math.random() * 100; 
+      y = arenaY + 100 + offset; 
+    }
+    else if (side === 2) { 
+      x = arenaX - offset; 
+      y = arenaY + Math.random() * 100; 
+    }
+    else { 
+      x = arenaX + 100 + offset; 
+      y = arenaY + Math.random() * 100; 
+    }
 
     const dx = soulX - x, dy = soulY - y;
     let len = Math.hypot(dx, dy);
@@ -544,6 +531,8 @@ function drawCroissants() {
     });
 }
 
+// Big bread + croissant + bread pellet combo attack
+
 function startComboAttack() {
     comboActive = true;
     bigBread = {
@@ -569,8 +558,11 @@ function drawComboAttack() {
         ctx.restore();
     }
     drawCroissants();
+    drawPellets();
 }
 
+
+// Called on battle end to clear all attacks or on game over
 function stopAllAttacks() {
     pellets = [];
     croissants = [];
@@ -579,20 +571,15 @@ function stopAllAttacks() {
     activeAttack = null;
 }
 
-// ----------------------
-// Integrate into Update & Draw
-// ----------------------
+// Runs every frame to update game state
 function update(delta) {
     if (!gameStarted) return; 
-
     textTimer += delta;
-    // Only continue typing if there is a message and we are not in battle
     if (textTimer > 50 && textIndex < message.length && menuState !== "battle") {
         displayedText += message[textIndex++];
         textTimer = 0;
     }
     
-
     if (menuState === "battle") {
         soulX += vx;
         soulY += vy;
@@ -622,8 +609,7 @@ function draw() {
     ctx.fillRect(0, 0, width, height); 
     ctx.drawImage(loaf, width / 2 - 64, 50, 128, 128);
 
-    // Dialogue Box Drawing: Only draw if NOT in battle (inBattle is false)
-    // AND NOT actively fading (fading < 1)
+    // Dialogue box only draws if NOT in battle (inBattle is false)
     if (fading < 1 && !inBattle) {
         ctx.globalAlpha = 1 - fading;
         ctx.strokeStyle = "white";
@@ -631,12 +617,10 @@ function draw() {
         ctx.strokeRect(30, enemyZoneHeight + 10, width - 60, textBoxHeight - 20);
         ctx.font = "20px DeterminationSansWeb";
         ctx.fillStyle = "white";
-        
-        // *** FINAL FIX: Adjusted Y position to ensure text is well inside the box ***
         wrapText(displayedText, 50, enemyZoneHeight + 45, width - 100, 24);
     }
     
-    // Reset Alpha for drawing critical elements
+    // Reset alpha for other drawings (transparency effects)
     ctx.globalAlpha = 1;
 
     if (menuState === "battle") {
@@ -653,7 +637,7 @@ function draw() {
         ctx.drawImage(soul, soulX - soulSize / 2, soulY - soulSize / 2, soulSize, soulSize);
     }
     
-    // Draw fade-to-black overlay
+    // fade to black
     if (fading > 0 && (menuState !== "battle" || !gameStarted)) {
         ctx.save(); 
         ctx.globalAlpha = fading;
@@ -663,22 +647,19 @@ function draw() {
     }
 
     drawStats();
-    
-    // Only draw menus if dialogue is finished and we are not in battle (fading is 0)
     if (fading <= 0 && !inBattle) {
         drawMenus();
     }
 }
 
-    // ----------------------
-    // UI Draw helpers
-    // ----------------------
-    function drawStats() {
+
+//Health bar beside name and level (health is yellow but goes red over time)
+function drawStats() {
         const statsY = height - menuHeight - statsHeight;
         ctx.font = "20px DeterminationSansWeb";
         ctx.fillStyle = "white";
-        ctx.fillText(`${player.name}  LV ${player.lvl}`, 30, statsY + 25);
-
+        ctx.fillText(`${player.name} LV ${player.lvl}`, 30, statsY + 25);
+        // HP bar
         const barX = 200, barY = statsY + 10, barWidth = 200;
         const hpWidth = (player.hp / player.maxHp) * barWidth;
         ctx.fillStyle = "red";
@@ -688,7 +669,7 @@ function draw() {
         ctx.strokeStyle = "white";
         ctx.strokeRect(barX, barY, barWidth, 15);
         ctx.fillStyle = "white";
-        ctx.fillText(`${player.hp}/${player.maxHp}`, barX + 210, barY + 15);
+        ctx.fillText(`     ${player.hp}/${player.maxHp}`, barX + 210, barY + 15);
     }
 
     function drawMenus() {
@@ -698,6 +679,7 @@ function draw() {
         else if (menuState === "mercy") drawMercyMenu();
     }
 
+// Functions to draw each menu, at the bottom of the screen
     function drawMainMenu() {
         const menuY = height - menuHeight + 20;
         const optionWidth = width / 4;
@@ -714,7 +696,6 @@ function draw() {
         });
     }
 
-    // *** FIX: Act Menu is now a single vertical column ***
     function drawActMenu() {
         const menuWidth = 150; 
         const startX = width / 2 - menuWidth / 2; 
@@ -770,9 +751,7 @@ function draw() {
         ctx.fillText(line, x, y);
     }
 
-// ----------------------
-// Game Loop
-// ----------------------
+// FINALMENTE, game loop.
 let lastTime = 0;
 function gameLoop(timestamp) {
     if (!gameStarted && endScreen && endScreen.style.display === "flex") return; 

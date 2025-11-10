@@ -15,7 +15,7 @@ canvas{
 }
 
 /*dog fight canvas 
-    Canvas is hidden until player enters their name*/
+Canvas is hidden until player enters their name*/
 canvas {
     border: 4px solid white;
     background-color: black;

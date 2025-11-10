@@ -1,13 +1,55 @@
-    var http = require('http');
-    var express = require('express');
+var http = require('http');
+var express = require('express');
+var bodyParser = require('body-parser');
 
-    var app = express();
+var app = express();
 
-    // Serve files from the "public" directory
-    app.use(express.static('./public'));
+app.use(bodyParser.urlencoded({ extended: false}))
+app.use(bodyParser.json())
 
-    // Create and start the server
-    var server = http.createServer(app);
-    server.listen(80);
+app.use(express.static('./public')); 
 
-    console.log('Server running at http://localhost:80');
+app.set('view engine', 'ejs')
+app.set('views', './views'); 
+var server = http.createServer(app);
+server.listen(80);
+
+console.log('Servidor rodando na porta 80...');
+
+app.get('/', function (requisicao, resposta){
+	resposta.redirect('index.html') 
+})
+
+app.get('/cadastra', function (requisicao, resposta){
+    resposta.redirect('/login/cadastro.html'); 
+})
+
+
+app.get('/login', function (requisicao, resposta){
+    resposta.redirect('/login/login.html');
+})
+
+app.get('/cadastro-submit', function (requisicao, resposta){
+    var username = requisicao.query.username;
+    var password = requisicao.query.password;
+    
+    resposta.render('resposta_cadastro', {username, password})
+})
+
+
+app.post('/login', function (requisicao, resposta){
+    var username = requisicao.body.username;
+    var password = requisicao.body.password;
+
+    if (username === 'admin' && password === '12345') {
+        resposta.render('resposta', {
+            status: 'Sucesso',
+            mensagem: `Bem-vindo(a), ${username}!`
+        });
+    } else {
+        resposta.render('resposta', {
+            status: 'Falha',
+            mensagem: 'Nome de usuário ou senha incorretos.'
+        });
+    }
+})

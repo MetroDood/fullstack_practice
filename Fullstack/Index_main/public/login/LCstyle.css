@@ -1,0 +1,76 @@
+.container, .login-container {
+    background-color: rgba(30, 33, 50, 0.9); /* Fundo mais claro que o body */
+    border: 1px solid rgba(155, 101, 205, 0.5); /* Borda com a cor de destaque */
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 90%;
+    margin-top: 150px; /* Desce o contêiner para evitar a navbar */
+    color: rgb(232, 204, 245);
+    margin-left: auto; /* Garante centralização quando o body é flex */
+    margin-right: auto;
+}
+
+.container h1, .login-container h1 {
+    color: rgb(155, 101, 205); /* Cor de destaque para o título */
+    margin-bottom: 30px;
+    font-size: 2em;
+}
+
+.container form, .login-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: left;
+}
+
+.container label, .login-container label, .container p {
+    font-weight: bold;
+    color: rgb(232, 204, 245);
+    margin-bottom: 5px;
+    display: block;
+}
+
+.container input[type="text"], .login-container input[type="text"],input[type = "password"], .login-container input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid rgba(155, 101, 205, 0.7);
+    border-radius: 8px;
+    background-color: rgba(45, 48, 70, 0.9);
+    color: rgb(232, 204, 245);
+    box-sizing: border-box; 
+    transition: border-color 0.3s ease;
+}
+
+.container input:focus, .login-container input:focus {
+    outline: none;
+    border-color: rgb(232, 204, 245);
+    box-shadow: 0 0 5px rgba(155, 101, 205, 0.8);
+}
+
+.container button, .container input[type="submit"], 
+.login-container button, .login-container input[type="submit"] {
+    background-color: rgb(155, 101, 205); 
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.container button:hover, .container input[type="submit"]:hover,
+.login-container button:hover, .login-container input[type="submit"]:hover {
+    background-color: rgb(120, 70, 170); 
+    transform: translateY(-2px);
+}
+
+a{
+    text-align: center;
+    text-decoration: none;
+    color:  rgb(232, 204, 245);
+}
