@@ -371,7 +371,7 @@ function startBattlePhase() {
 
     let nextAttack;
     // Logic to choose next attack based on loafDamage and actsDone (to avoid repetition)
-    if (loafDamage >= 50 || actsDone > 3 || lastAttack != "combo") {
+    if (loafDamage >= 50 || actsDone >= 4 && lastAttack != "combo") {
         nextAttack = "combo";
     } else {
         const availableAttacks = ["pellet", "croissant"].filter(att => att !== lastAttack);

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meu Blog Dinâmico</title>
+    <link href="../style.css" rel="stylesheet">
+    <link href="../blog/blogstyle.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container" style="max-width: 800px; margin-top: 150px;">
+        <h1 style="text-align: center;">Últimos Posts</h1>
+        
+        <a href="/cadastrar_post" class="create-post-btn" 
+           style="text-decoration: none; padding: 10px 15px; border: 1px solid; border-radius: 5px; display: inline-block; margin-bottom: 30px;">
+           + Criar Novo Post
+        </a>
+
+        <% if (posts && posts.length > 0) { %>
+            <% posts.forEach(function(post) { %>
+                <div class="post-item">
+                    <h2 class="post-title"><%= post.titulo %></h2>
+                    <p class="post-summary">Resumo: <%= post.resumo %></p>
+                    <p class="post-content"><%= post.conteudo %></p>
+                    <small class="post-date">Publicado em: <%= post.data.toLocaleDateString('pt-BR') %></small>
+                </div>
+            <% }); %>
+        <% } else if (erro) { %>
+            <p class="error-message"><%= erro %></p>
+        <% } else { %>
+            <p class="no-posts-message">Ainda não há posts cadastrados.</p>
+        <% } %>
+
+        <p><a href="/">Voltar para a página de Projetos</a></p>
+    </div>
+</body>
+</html>

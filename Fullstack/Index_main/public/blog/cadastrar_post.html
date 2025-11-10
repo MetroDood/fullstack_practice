@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Post do Blog</title>
+    <link href="../style.css" rel="stylesheet">
+    <link href="blogstyle.css" rel="stylesheet"> 
+</head>
+<body>
+    <div class="blogger">
+        <h1>Criar Novo Post</h1>
+        <form method="POST" action="/postar">
+            <p>Título: <input type="text" name="titulo" required></p>
+            <p>Resumo: <input type="text" name="resumo" required></p>
+            <p>Conteúdo: <textarea name="conteudo" rows="10" required></textarea></p>
+            
+            <input type="submit" value="Publicar Post">
+        </form>
+        <p style="margin-top: 20px;"><a href="/blog">Voltar para o Blog</a></p>
+    </div>
+</body>
+</html>

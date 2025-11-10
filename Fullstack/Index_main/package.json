@@ -3,7 +3,8 @@
     "body-parser": "^2.2.0",
     "colors": "^1.4.0",
     "ejs": "^3.1.10",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "mongodb": "4.12"
   },
   "name": "index_main",
   "version": "1.0.0",

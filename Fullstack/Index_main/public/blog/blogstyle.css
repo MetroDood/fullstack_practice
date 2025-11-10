@@ -1,0 +1,93 @@
+.create-post-btn {
+    background-color: rgba(155, 101, 205, 0.1); 
+    border-color: rgb(155, 101, 205);
+    color: rgb(155, 101, 205) !important;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.create-post-btn:hover {
+    background-color: rgba(155, 101, 205, 0.25);
+}
+
+.post-item {
+    background-color: rgba(30, 33, 50, 0.9);
+    border: 1px solid rgba(232, 204, 245, 0.1);
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    text-align: left;
+    transition: box-shadow 0.3s ease;
+}
+
+.post-item:hover {
+    box-shadow: 0 0 15px rgba(155, 101, 205, 0.3);
+}
+
+.post-title {
+    color: rgb(155, 101, 205);
+    font-size: 1.8em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed rgba(232, 204, 245, 0.1);
+    padding-bottom: 5px;
+}
+
+.post-summary {
+    font-style: italic;
+    color: rgb(200, 180, 220);
+    margin-bottom: 15px;
+}
+
+.post-content {
+    color: rgb(232, 204, 245);
+    line-height: 1.6;
+}
+
+.post-date {
+    display: block;
+    margin-top: 15px;
+    color: #999;
+    font-size: 0.85em;
+    text-align: right;
+}
+
+.container textarea[name="conteudo"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid rgba(155, 101, 205, 0.7);
+    border-radius: 8px;
+    background-color: rgba(45, 48, 70, 0.9);
+    color: rgb(232, 204, 245);
+    box-sizing: border-box;
+    resize: vertical; 
+    min-height: 150px;
+}
+
+.container textarea[name="conteudo"]:focus {
+    outline: none;
+    border-color: rgb(232, 204, 245);
+    box-shadow: 0 0 5px rgba(155, 101, 205, 0.8);
+}
+
+
+.error-message {
+    color: #b81c00; 
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-top: 30px;
+}
+
+.no-posts-message {
+    color: #aaa;
+    font-style: italic;
+    margin-top: 30px;
+}
+
+.status-message {
+    color: rgb(155, 101, 205);
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 20px 0;
+}
