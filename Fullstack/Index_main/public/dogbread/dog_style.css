@@ -5,6 +5,7 @@ body {
     text-align: center;
 }
 
+/* importing font used in other projects (mainly mouse following rat) */
 @font-face {
     font-family: "DeterminationSansWeb";
     src: url("../mouse_move/fonts/DeterminationSansWeb.woff") format("truetype");
@@ -41,14 +42,16 @@ body {
     color: #ff5555;
     font-weight: bold;
 }
+
+/* center buttons */
 .button-container {
     display: flex;
     justify-content: center;
-    gap: 50px; /* space between buttons */
+    gap: 50px;
     margin-top: 30px;
 }
 
-/* shared button styles */
+/* button styling */
 .Play, .credits {
     font-size: 24px;
     border: 7px solid #fff;
