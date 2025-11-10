@@ -7,7 +7,6 @@
     <link href="dog_style.css" rel = "stylesheet">
     <link href="dog_stylegame.css" rel = "stylesheet">
     <link rel="preload" href="JS_side/dog_game.js" as="script">
-
 </head>
 <body>
 
@@ -18,9 +17,12 @@
             <button id="startButton">Confirm</button>
         </div>
     </div>
-        <!-- Aspect Ratio of UNDERTALE fights - Starts invisible-->
     <canvas id="dogbreadFight" width="1024" height="768"></canvas>
-
+    <div id="endScreen">
+        <h1 id="endMessage"></h1>
+        <button id="retryButton">Retry</button>
+        <button id="menuButton">Menu</button>
+    </div>
     <script src="JS_side/dog_game.js"></script>
 </body>
 </html>
