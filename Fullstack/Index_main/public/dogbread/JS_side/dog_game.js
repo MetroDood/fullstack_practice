@@ -6,7 +6,7 @@ const ctx = canvas.getContext("2d");
 // ----------------------
 const width = canvas.width;
 const height = canvas.height;
--
+
 const textBoxHeight = height * 0.3;
 const menuHeight = 100;
 const statsHeight = 40;
