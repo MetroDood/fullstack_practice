@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gerenciar Carros</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+    <h2 class="central">Gerenciar Carros</h2>
+    <!-- Cadastro de novo carro -->
+    <form class="central" method="POST" action="/carros/cadastrar">
+        <input name="marca" placeholder="Marca" required>
+        <input name="modelo" placeholder="Modelo" required>
+        <input name="ano" type="number" placeholder="Ano" required>
+        <input name="qtde_disponivel" type="number" placeholder="Qtd" required>
+        <button type="submit">Cadastrar</button>
+    </form>
+    <!-- Tabela CRUD -->
+    <table class="central" style="margin:auto">
+        <tr>
+            <th>Marca</th><th>Modelo</th><th>Ano</th><th>Qtd</th>
+            <th>Ações</th>
+        </tr>
+        <% carros.forEach(c => { %>
+            <tr>
+            <form method="POST" action="/carros/atualizar/<%= c._id %>">
+                <td><input name="marca" value="<%= c.marca %>"></td>
+                <td><input name="modelo" value="<%= c.modelo %>"></td>
+                <td><input name="ano" type="number" value="<%= c.ano %>"></td>
+                <td><input name="qtde_disponivel" type="number" value="<%= c.qtde_disponivel %>"></td>
+                <td>
+                    <button type="submit">Atualizar</button>
+            </form>
+                <form method="POST" action="/carros/remover/<%= c._id %>" style="display:inline;">
+                    <button type="submit">Remover</button>
+                </form>
+                <form method="POST" action="/carros/vender/<%= c._id %>" style="display:inline;">
+                    <button type="submit" <%= c.qtde_disponivel <= 0 ? "disabled" : "" %>>Vender</button>
+                </form>
+                </td>
+            </tr>
+        <% }) %>
+    </table>
+</body>
+</html>

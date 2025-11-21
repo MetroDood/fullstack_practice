@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carros Disponíveis</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+    <h2 class="central">Carros Disponíveis</h2>
+    <div class="skills-section">
+    <% carros.forEach(c => { %>
+        <div class="skill-box">
+            <h3><%= c.marca %> - <%= c.modelo %></h3>
+            <p>Ano: <%= c.ano %></p>
+            <p>Disponível: <%= c.qtde_disponivel > 0 ? c.qtde_disponivel : '<span class="hue_shifted_purple">Esgotado</span>' %></p>
+        </div>
+    <% }) %>
+    </div>
+</body>
+</html>
